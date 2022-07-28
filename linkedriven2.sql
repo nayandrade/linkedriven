@@ -40,3 +40,13 @@ ORDER BY "maximumSalary"
 -- quantidade de alunos (educations) que estão cursando (status='ongoing' ) ou 
 -- finalizaram (status='finished') 
 
+
+SELECT schools.name AS school, courses.name AS course, COUNT(educations) AS studentsCount
+FROM educations
+JOIN schools ON educations."schoolId" = schools.id
+JOIN courses ON educations."courseId" = courses.id
+WHERE educations.status = 'ongoing' OR educations.status = 'finished'
+GROUP BY educations.status, schools.name, courses.name
+ORDER BY COUNT(educations) DESC
+LIMIT 3
+
