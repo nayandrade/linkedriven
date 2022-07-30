@@ -1,0 +1,81 @@
+-- CRIAR O BANCO DE DADOS:
+CREATE DATABASE "driven_bank";
+
+-- CRIAR A TABELA STATES
+CREATE TABLE states (
+	"id" SERIAL PRIMARY KEY,
+	"name" VARCHAR(64) NOT NULL UNIQUE
+);
+
+-- CRIAR A TABELA CITIES
+CREATE TABLE cities (
+	"id" SERIAL PRIMARY KEY,
+	"name" VARCHAR(64) NOT NULL UNIQUE,
+	"stateId" INTEGER NOT NULL REFERENCES "states"("id")
+);
+
+--CRIAR TABELA CUSTOMERS
+CREATE TABLE customers (
+	"id" SERIAL PRIMARY KEY,
+	"fullName" VARCHAR(128) NOT NULL,
+	"cpf" VARCHAR(11) NOT NULL UNIQUE,
+	"email" TEXT NOT NULL UNIQUE,
+	"password" TEXT NOT NULL
+);
+
+--CRIAR TABELA CUSTOMER ADDRESSES - "number" FOI COLOCADO COMO TEXT PORQUE EXISTEM NUMERAÇÕES COM CARACTERES ALFABÉTICOS DEPENDENDO DO CEP
+CREATE TABLE "customerAddresses" (
+	"id" SERIAL PRIMARY KEY,
+	"customerId" INTEGER NOT NULL REFERENCES "customers"("id"),
+	"street" TEXT NOT NULL,
+	"number" TEXT NOT NULL,
+	"complement" TEXT,
+	"postalCode" VARCHAR(8) NOT NULL,
+	"cityId" INTEGER NOT NULL REFERENCES "cities"("id")
+);
+
+--CRIAR TABELA CUSTOMER PHONES
+CREATE TABLE "customerAddresses" (
+	"id" SERIAL PRIMARY KEY,
+	"customerId" INTEGER NOT NULL REFERENCES "customers"("id"),
+	"street" TEXT NOT NULL,
+	"number" TEXT NOT NULL,
+	"complement" TEXT,
+	"postalCode" VARCHAR(8) NOT NULL,
+	"cityId" INTEGER NOT NULL REFERENCES "cities"("id")
+);
+
+--CRIAR TABELA BANK ACCOUNTS
+CREATE TABLE "bankAccount" (
+	"id" SERIAL PRIMARY KEY,
+	"customerId" INTEGER NOT NULL REFERENCES "customers"("id"),
+	"accountNumber" TEXT NOT NULL,
+	"agency" TEXT NOT NULL,
+	"openDate" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"closeDate" TIMESTAMP DEFAULT NULL
+);
+
+--CRIAR TABELA TRANSACTIONS
+CREATE TYPE "transactionsType" AS ENUM ('deposit', 'withdraw');
+CREATE TABLE "transactions" (
+	"id" SERIAL PRIMARY KEY,
+	"bankAccountId" INTEGER NOT NULL REFERENCES "bankAccount"("id"),
+	"ammount" INTEGER NOT NULL,
+	"type" "transactionsType" NOT NULL,
+	"time" TIMESTAMP NOT NULL DEFAULT NOW(),
+	"description" TEXT,
+	"cancelled" BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+--CRIAR TABELA CREDIT
+CREATE TABLE "creditCards" (
+	"id" SERIAL PRIMARY KEY,
+	"bankAccountId" INTEGER NOT NULL REFERENCES "bankAccount"("id"),
+	"name" TEXT NOT NULL,
+	"number" VARCHAR(16) NOT NULL,
+	"securityCode" VARCHAR(3) NOT NULL,
+	"expirationMonth" VARCHAR(2) NOT NULL,
+	"expirationYear" VARCHAR(4) NOT NULL,
+	"password" TEXT NOT NULL,
+	"limit" INTEGER NOT NULL
+);
