@@ -1,4 +1,4 @@
-CREATE TABLE "public.users" (
+CREATE TABLE "users" (
 	"id" serial NOT NULL,
 	"name" TEXT NOT NULL,
 	"email" TEXT NOT NULL UNIQUE,
@@ -10,7 +10,7 @@ CREATE TABLE "public.users" (
 
 
 
-CREATE TABLE "public.products" (
+CREATE TABLE "products" (
 	"id" serial NOT NULL,
 	"name" TEXT NOT NULL,
 	"price" integer NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE "public.products" (
 
 
 
-CREATE TABLE "public.pics" (
+CREATE TABLE "pics" (
 	"id" serial NOT NULL,
 	"product_id" integer NOT NULL,
 	"image" TEXT NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE "public.pics" (
 
 
 
-CREATE TABLE "public.categories" (
+CREATE TABLE "categories" (
 	"id" serial NOT NULL,
 	"name" TEXT NOT NULL UNIQUE,
 	CONSTRAINT "categories_pk" PRIMARY KEY ("id")
@@ -46,7 +46,7 @@ CREATE TABLE "public.categories" (
 
 
 
-CREATE TABLE "public.sizes" (
+CREATE TABLE "sizes" (
 	"id" serial NOT NULL,
 	"name" TEXT NOT NULL UNIQUE,
 	CONSTRAINT "sizes_pk" PRIMARY KEY ("id")
@@ -56,7 +56,7 @@ CREATE TABLE "public.sizes" (
 
 
 
-CREATE TABLE "public.sales" (
+CREATE TABLE "sales" (
 	"id" serial NOT NULL,
 	"user_id" integer NOT NULL,
 	"status" TEXT NOT NULL DEFAULT 'created',
@@ -70,7 +70,7 @@ CREATE TABLE "public.sales" (
 
 
 
-CREATE TABLE "public.product_sold" (
+CREATE TABLE "product_sold" (
 	"id" serial,
 	"product_id" integer NOT NULL,
 	"sales_id" integer NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE "public.product_sold" (
 
 
 
-CREATE TABLE "public.adresses" (
+CREATE TABLE "adresses" (
 	"id" serial NOT NULL,
 	"user_id" integer NOT NULL,
 	"street" TEXT NOT NULL,
@@ -95,7 +95,14 @@ CREATE TABLE "public.adresses" (
 );
 
 
-
+ALTER TABLE "products" ADD CONSTRAINT "products_fk0" FOREIGN KEY ("category_id") REFERENCES "categories"("id");
+ALTER TABLE "products" ADD CONSTRAINT "products_fk1" FOREIGN KEY ("size_id") REFERENCES "sizes"("id");
+ALTER TABLE "pics" ADD CONSTRAINT "pics_fk0" FOREIGN KEY ("product_id") REFERENCES "products"("id");
+ALTER TABLE "sales" ADD CONSTRAINT "sales_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
+ALTER TABLE "sales" ADD CONSTRAINT "sales_fk1" FOREIGN KEY ("adress_id") REFERENCES "adresses"("id");
+ALTER TABLE "product_sold" ADD CONSTRAINT "product_sold_fk0" FOREIGN KEY ("product_id") REFERENCES "products"("id");
+ALTER TABLE "product_sold" ADD CONSTRAINT "product_sold_fk1" FOREIGN KEY ("sales_id") REFERENCES "sales"("id");
+ALTER TABLE "adresses" ADD CONSTRAINT "adresses_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
 
 -- ALTER TABLE "products" ADD CONSTRAINT "products_fk0" FOREIGN KEY ("category_id") REFERENCES "categories"("id");
 -- ALTER TABLE "products" ADD CONSTRAINT "products_fk1" FOREIGN KEY ("size_id") REFERENCES "sizes"("id");
@@ -105,17 +112,6 @@ CREATE TABLE "public.adresses" (
 -- ALTER TABLE "product_sold" ADD CONSTRAINT "product_sold_fk0" FOREIGN KEY ("product_id") REFERENCES "products"("id");
 -- ALTER TABLE "product_sold" ADD CONSTRAINT "product_sold_fk1" FOREIGN KEY ("sales_id") REFERENCES "sales"("id");
 -- ALTER TABLE "adresses" ADD CONSTRAINT "adresses_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
-
-
-ALTER TABLE "public.products" ADD CONSTRAINT "products_fk0" FOREIGN KEY ("category_id") REFERENCES "public.categories"("id");
-ALTER TABLE "public.products" ADD CONSTRAINT "products_fk1" FOREIGN KEY ("size_id") REFERENCES "public.sizes"("id");
-ALTER TABLE "public.pics" ADD CONSTRAINT "pics_fk0" FOREIGN KEY ("product_id") REFERENCES "public.products"("id");
-ALTER TABLE "public.sales" ADD CONSTRAINT "sales_fk0" FOREIGN KEY ("user_id") REFERENCES "public.users"("id");
-ALTER TABLE "public.sales" ADD CONSTRAINT "sales_fk1" FOREIGN KEY ("adress_id") REFERENCES "public.adresses"("id");
-ALTER TABLE "public.product_sold" ADD CONSTRAINT "product_sold_fk0" FOREIGN KEY ("product_id") REFERENCES "public.products"("id");
-ALTER TABLE "public.product_sold" ADD CONSTRAINT "product_sold_fk1" FOREIGN KEY ("sales_id") REFERENCES "public.sales"("id");
-ALTER TABLE "public.adresses" ADD CONSTRAINT "adresses_fk0" FOREIGN KEY ("user_id") REFERENCES "public.users"("id");
-
 
 
 
