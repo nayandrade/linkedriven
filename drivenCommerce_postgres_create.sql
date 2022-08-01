@@ -84,7 +84,7 @@ CREATE TABLE "public.product_sold" (
 
 CREATE TABLE "public.adresses" (
 	"id" serial NOT NULL,
-	"user_id" TEXT NOT NULL,
+	"user_id" integer NOT NULL,
 	"street" TEXT NOT NULL,
 	"number" TEXT NOT NULL,
 	"reference" TEXT,
@@ -97,22 +97,24 @@ CREATE TABLE "public.adresses" (
 
 
 
-ALTER TABLE "products" ADD CONSTRAINT "products_fk0" FOREIGN KEY ("category_id") REFERENCES "categories"("id");
-ALTER TABLE "products" ADD CONSTRAINT "products_fk1" FOREIGN KEY ("size_id") REFERENCES "sizes"("id");
-
-ALTER TABLE "pics" ADD CONSTRAINT "pics_fk0" FOREIGN KEY ("product_id") REFERENCES "products"("id");
-
-
-
-ALTER TABLE "sales" ADD CONSTRAINT "sales_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
-ALTER TABLE "sales" ADD CONSTRAINT "sales_fk1" FOREIGN KEY ("adress_id") REFERENCES "adresses"("id");
-
-ALTER TABLE "product_sold" ADD CONSTRAINT "product_sold_fk0" FOREIGN KEY ("product_id") REFERENCES "products"("id");
-ALTER TABLE "product_sold" ADD CONSTRAINT "product_sold_fk1" FOREIGN KEY ("sales_id") REFERENCES "sales"("id");
-
-ALTER TABLE "adresses" ADD CONSTRAINT "adresses_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
+-- ALTER TABLE "products" ADD CONSTRAINT "products_fk0" FOREIGN KEY ("category_id") REFERENCES "categories"("id");
+-- ALTER TABLE "products" ADD CONSTRAINT "products_fk1" FOREIGN KEY ("size_id") REFERENCES "sizes"("id");
+-- ALTER TABLE "pics" ADD CONSTRAINT "pics_fk0" FOREIGN KEY ("product_id") REFERENCES "products"("id");
+-- ALTER TABLE "sales" ADD CONSTRAINT "sales_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
+-- ALTER TABLE "sales" ADD CONSTRAINT "sales_fk1" FOREIGN KEY ("adress_id") REFERENCES "adresses"("id");
+-- ALTER TABLE "product_sold" ADD CONSTRAINT "product_sold_fk0" FOREIGN KEY ("product_id") REFERENCES "products"("id");
+-- ALTER TABLE "product_sold" ADD CONSTRAINT "product_sold_fk1" FOREIGN KEY ("sales_id") REFERENCES "sales"("id");
+-- ALTER TABLE "adresses" ADD CONSTRAINT "adresses_fk0" FOREIGN KEY ("user_id") REFERENCES "users"("id");
 
 
+ALTER TABLE "public.products" ADD CONSTRAINT "products_fk0" FOREIGN KEY ("category_id") REFERENCES "public.categories"("id");
+ALTER TABLE "public.products" ADD CONSTRAINT "products_fk1" FOREIGN KEY ("size_id") REFERENCES "public.sizes"("id");
+ALTER TABLE "public.pics" ADD CONSTRAINT "pics_fk0" FOREIGN KEY ("product_id") REFERENCES "public.products"("id");
+ALTER TABLE "public.sales" ADD CONSTRAINT "sales_fk0" FOREIGN KEY ("user_id") REFERENCES "public.users"("id");
+ALTER TABLE "public.sales" ADD CONSTRAINT "sales_fk1" FOREIGN KEY ("adress_id") REFERENCES "public.dresses"("id");
+ALTER TABLE "public.product_sold" ADD CONSTRAINT "product_sold_fk0" FOREIGN KEY ("product_id") REFERENCES "public.products"("id");
+ALTER TABLE "public.product_sold" ADD CONSTRAINT "product_sold_fk1" FOREIGN KEY ("sales_id") REFERENCES "public.sales"("id");
+ALTER TABLE "public.adresses" ADD CONSTRAINT "adresses_fk0" FOREIGN KEY ("user_id") REFERENCES "public.users"("id");
 
 
 
