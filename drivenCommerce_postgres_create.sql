@@ -1,6 +1,6 @@
 CREATE TABLE "public.users" (
 	"id" serial NOT NULL,
-	"name" TIME NOT NULL,
+	"name" TEXT NOT NULL,
 	"email" TEXT NOT NULL UNIQUE,
 	"password" TEXT NOT NULL,
 	CONSTRAINT "users_pk" PRIMARY KEY ("id")
