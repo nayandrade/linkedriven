@@ -111,7 +111,7 @@ ALTER TABLE "public.products" ADD CONSTRAINT "products_fk0" FOREIGN KEY ("catego
 ALTER TABLE "public.products" ADD CONSTRAINT "products_fk1" FOREIGN KEY ("size_id") REFERENCES "public.sizes"("id");
 ALTER TABLE "public.pics" ADD CONSTRAINT "pics_fk0" FOREIGN KEY ("product_id") REFERENCES "public.products"("id");
 ALTER TABLE "public.sales" ADD CONSTRAINT "sales_fk0" FOREIGN KEY ("user_id") REFERENCES "public.users"("id");
-ALTER TABLE "public.sales" ADD CONSTRAINT "sales_fk1" FOREIGN KEY ("adress_id") REFERENCES "public.dresses"("id");
+ALTER TABLE "public.sales" ADD CONSTRAINT "sales_fk1" FOREIGN KEY ("adress_id") REFERENCES "public.adresses"("id");
 ALTER TABLE "public.product_sold" ADD CONSTRAINT "product_sold_fk0" FOREIGN KEY ("product_id") REFERENCES "public.products"("id");
 ALTER TABLE "public.product_sold" ADD CONSTRAINT "product_sold_fk1" FOREIGN KEY ("sales_id") REFERENCES "public.sales"("id");
 ALTER TABLE "public.adresses" ADD CONSTRAINT "adresses_fk0" FOREIGN KEY ("user_id") REFERENCES "public.users"("id");
